@@ -1,11 +1,6 @@
 Creates a Kubernetes environment.
 
-# Prerequisites
-
-The Cloudify Kubernetes Integration blueprint must be uploaded to Cloudify Manager, with the ID
-`cloudify-kubernetes-1.0`.
-
-## Environment Variables
+# Environment Variables
 
 This Action uses the Cloudify Profile environment variables described in the official
 Cloudify documentation (see [More Information](#more-information) below).
@@ -31,12 +26,37 @@ Cloudify documentation (see [More Information](#more-information) below).
 | `allow_node_redefinition` | Whether to allow Kubernetes node redefinition
 | `debug` | Whether to generate debug logging of Kubernetes calls
 
-# Notes
+## Notes
 
 * Authentication to Kubernetes must be done in exactly one of the following methods:
   * Specifying `gcp-credentials-file`
   * Specifying `token` (this will usually be defined as a secret)
   * Specifying `token-file`
+
+# Example
+
+```yaml
+jobs:
+  test_job:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create environment
+        uses: cloudify-cosmo/kubernetes-action@v1.0
+        with:
+          environment-name: "test-k8s-$GITHUB_RUN_ID"
+          token: ${{ secrets.KUBERNETES_TOKEN }}
+          master-host: ${{ secrets.KUBERNETES_MASTER_HOST }}
+          namespace: default
+          app-definition-file: k8s/app.yaml
+          skip-ssl-verification: true
+          outputs-file: env-data.json
+```
+
+This example authenticates to Kubernetes using a token, when the token is defined as a
+GitHub secret.
+
+The Kubernetes master host is also stored as a GitHub secret.
 
 # More Information
 
