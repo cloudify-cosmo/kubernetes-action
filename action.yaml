@@ -82,7 +82,7 @@ outputs:
     description: The Cloudify environment's outputs and capabilties
 runs:
   using: docker
-  image: docker://cloudifyplatform/cloudify-cli:5.0.5.1
+  image: docker://cloudifyplatform/cloudify-cli:5.1.1
   entrypoint: cfyci
   args:
     - k8s
