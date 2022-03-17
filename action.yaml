@@ -8,6 +8,13 @@ inputs:
   environment-name:
     description: Name of Cloudify environment to create
     required: true
+  labels:
+    description: |
+      A labels list of the form <key>:<value>,<key>:<value>.
+      Any comma and colon in <value> must be escaped with \.
+      The labels’ keys are saved in lowercase.
+    required: false
+    default: "-"
   gcp-credentials-file:
     description: Path to file containing GCP service account details
     required: false
@@ -82,12 +89,14 @@ outputs:
     description: The Cloudify environment's outputs and capabilties
 runs:
   using: docker
-  image: docker://cloudifyplatform/cloudify-cli:5.1.1
+  image: docker://cloudifyplatform/cloudify-cli:6.3.0
   entrypoint: cfyci
   args:
     - k8s
     - '--name'
     - ${{ inputs.environment-name }}
+    - '--labels'
+    - ${{ inputs.labels }}
     - '--gcp-credentials-file'
     - ${{ inputs.gcp-credentials-file }}
     - '--token'
