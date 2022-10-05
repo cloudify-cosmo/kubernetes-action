@@ -42,7 +42,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create environment
-        uses: cloudify-cosmo/kubernetes-action@v1.2
+        uses: cloudify-cosmo/kubernetes-action@v1.3
         with:
           environment-name: "test-k8s-$GITHUB_RUN_ID"
           labels: some_label:label_value,yet_another_label:some_value
